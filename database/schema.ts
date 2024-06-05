@@ -6,14 +6,23 @@ import {
 	boolean,
 	numeric,
 	date,
+	pgEnum,
 } from "drizzle-orm/pg-core";
+
+export const userRoles = pgEnum("user_roles", ["admin" , "professor" , "student"]);
 
 export const userTable = pgTable("user", {
 	id: text("id").primaryKey(),
 	email: text("email").notNull().unique(),
 	name: text("name").notNull(),
 	password: text("password").notNull(),
+	role: userRoles("role").notNull().default("student"),
 });
+
+export const userRelations = relations(userTable, ({ many }) => ({
+	classroomRequests: many(classroomRequestsTable),
+	resourceRequests: many(resourceRequestsTable),
+}));
 
 export const sessionTable = pgTable("session", {
 	id: text("id").primaryKey(),
@@ -26,13 +35,18 @@ export const sessionTable = pgTable("session", {
 	}).notNull(),
 });
 
+export const itemStatus = pgEnum("item_status", ["activo" , "mantenimiento" , "evento" , "inactivo"]);
+export const requestStatus = pgEnum("request_status", ["pendiente" , "aprobado" , "rechazado"]);
+
 export const classroomTable = pgTable("classroom", {
 	id: text("id").primaryKey(),
 	name: text("name").notNull(),
 	description: text("description").notNull(),
-	isActive: boolean("is_active").notNull(),
+	// TODO add a status column
+	status: itemStatus("status").notNull(),
   headquarterId: text("headquarter_id").notNull(),
 });
+
 
 export const classroomRelations = relations(classroomTable, ({ one, many }) => ({
 	headquarter: one(headquarterTable, {
@@ -58,14 +72,21 @@ export const classroomImageRelations = relations(classroomImageTable, ({ one }) 
 
 export const classroomRequestsTable = pgTable("classroom_request", {
 	id: text("id").primaryKey(),
-	requestDate: date("request_date").notNull(),
+	userId: text("user_id").notNull(),
+	requestStartDate: date("request_date").notNull(),
+	requestEndDate: date("request_date").notNull(),
 	classroomId: text("classroom_id").notNull(),
+	status: requestStatus("status").notNull(),
 });
 
 export const classroomRequestsRelations = relations(classroomRequestsTable, ({ one }) => ({
 	classroom: one(classroomTable, {
     fields: [classroomRequestsTable.classroomId],
     references: [classroomTable.id],
+  }),
+	user: one(userTable, {
+    fields: [classroomRequestsTable.userId],
+    references: [userTable.id],
   }),
 }));
 
@@ -74,6 +95,9 @@ export const resourceTable = pgTable("resource", {
 	name: text("name").notNull(),
 	description: text("description").notNull(),
 	quantity: numeric("quantity").notNull(),
+	requestStartDate: date("request_date").notNull(),
+	requestEndDate: date("request_date").notNull(),
+	status: itemStatus("status").notNull(),
   headquarterId: text("headquarter_id").notNull(),
 });
 
@@ -103,6 +127,7 @@ export const resourceRequestsTable = pgTable("resource_request", {
 	id: text("id").primaryKey(),
 	requestDate: date("request_date").notNull(),
 	resourceId: text("resource_id").notNull(),
+	status: requestStatus("status").notNull(),
 });
 
 export const resourceRequestsRelations = relations(resourceRequestsTable, ({ one }) => ({
