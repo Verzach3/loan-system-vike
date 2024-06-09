@@ -123,7 +123,9 @@ export const resourceImageRelations = relations(resourceImageTable, ({ one }) =>
 
 export const resourceRequestsTable = pgTable("resource_request", {
 	id: text("id").primaryKey(),
-	requestDate: date("request_date").notNull(),
+	userId: text("user_id").notNull(),
+	requestStartDate: date("request_date").notNull(),
+	requestEndDate: date("request_date").notNull(),
 	resourceId: text("resource_id").notNull(),
 	status: requestStatus("status").notNull(),
 });
@@ -132,6 +134,10 @@ export const resourceRequestsRelations = relations(resourceRequestsTable, ({ one
 	resource: one(resourceTable, {
     fields: [resourceRequestsTable.resourceId],
     references: [resourceTable.id],
+  }),
+  	user: one(userTable, {
+    fields: [resourceRequestsTable.userId],
+    references: [userTable.id],
   }),
 }));
 

@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS "resource_image" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "resource_request" (
 	"id" text PRIMARY KEY NOT NULL,
+	"user_id" text NOT NULL,
 	"request_date" date NOT NULL,
 	"resource_id" text NOT NULL,
 	"status" "request_status" NOT NULL
