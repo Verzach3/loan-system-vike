@@ -44,7 +44,7 @@ export const classroomTable = pgTable("classroom", {
 	description: text("description").notNull(),
 	// TODO add a status column
 	status: itemStatus("status").notNull(),
-  headquarterId: text("headquarter_id").notNull(),
+  	headquarterId: text("headquarter_id").notNull(),
 });
 
 
@@ -95,10 +95,8 @@ export const resourceTable = pgTable("resource", {
 	name: text("name").notNull(),
 	description: text("description").notNull(),
 	quantity: numeric("quantity").notNull(),
-	requestStartDate: date("request_date").notNull(),
-	requestEndDate: date("request_date").notNull(),
 	status: itemStatus("status").notNull(),
-  headquarterId: text("headquarter_id").notNull(),
+  	headquarterId: text("headquarter_id").notNull(),
 });
 
 export const resourceRelations = relations(resourceTable, ({ one, many }) => ({
@@ -147,6 +145,14 @@ export const headquarterTable = pgTable("headquarter", {
 
 export type HeadquarterInsert = Omit<typeof headquarterTable.$inferInsert, "id">;
 export type HeadquarterSelect = typeof headquarterTable.$inferSelect;
+
+
+export type ClassroomInsert = Omit<typeof classroomTable.$inferInsert, "id">;
+export type ClassroomSelect = typeof classroomTable.$inferSelect;
+
+
+export type ResourceInsert = Omit<typeof resourceTable.$inferInsert, "id">;
+export type ResourceSelect = typeof resourceTable.$inferSelect;
 
 export const headquarterRelations = relations(headquarterTable, ({ many }) => ({
 	classrooms: many(classroomTable),

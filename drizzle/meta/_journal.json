@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1717619951223,
-      "tag": "0000_outstanding_penance",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1717626136596,
-      "tag": "0001_funny_roxanne_simpson",
+      "when": 1717905076522,
+      "tag": "0000_public_yellow_claw",
       "breakpoints": true
     }
   ]
