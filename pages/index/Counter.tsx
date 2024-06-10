@@ -4,6 +4,8 @@ import { onCheckSession } from "@/functions/onCheckSession.telefunc";
 import { onCreateHeadquarters } from "@/functions/Headquarters/onCreateHeadquarters.telefunc";
 import { onCreateClassroom } from "@/functions/Classroom/onCreateClassroom.telefunc";
 import { onCreateResource } from "@/functions/Resources/onCreateResource.telefunc";
+import { onCreateClassroomRequest } from "@/functions/Requests/onCreateClassroomRequest.telefunc";
+import { onCreateResourceRequest } from "@/functions/Requests/onCreateResourceRequest.telefunc";
 
 export function Counter() {
   return (
@@ -49,7 +51,7 @@ export function Counter() {
             name: "salon 12",
             description: "salon 12",
             status: "activo",
-            headquarterId: "VxafSwVU3OYvJwFdizYJ-",
+            headquarterId: "G2a2sLQMeDlp9rrM3kOTm",
           })
         }
       >
@@ -64,12 +66,47 @@ export function Counter() {
             description: "proyector epson",
             status: "activo",
             quantity: "10",
-            headquarterId: "fCJ0jEFsG36aeRnv6Kh1W",
+            headquarterId: "G2a2sLQMeDlp9rrM3kOTm",
           })
         }
       >
         create resource
       </button>
+
+      {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+<button 
+        onClick={() =>
+          onCreateClassroomRequest(
+            {
+              userId: "rwfxatujykvxqc63",
+              classroomId: "Zlag3Ie9fjQ92Qa30gigK",
+              status: "pendiente",
+              requestEndDate: "2021-10-10",
+              requestStartDate: "2021-10-10",
+              id: ""
+            }
+          )
+        }
+      >
+        create classroom request
+      </button>
+    
+
+        {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+    <button onClick={() => onCreateResourceRequest(
+          {
+						userId: "rwfxatujykvxqc63",
+						id: "",
+						requestStartDate: " 2021-10-10",
+						requestEndDate: " 2021-10-10",
+						status: "pendiente",
+            resourceId: "GX7Qqa7eoDquZQffukezp"
+					}
+        )}
+      >
+        create resource request
+      </button>
+
     </>
   );
 }

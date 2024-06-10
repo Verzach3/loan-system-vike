@@ -3,12 +3,11 @@ import {
   pgTable,
   text,
   timestamp,
-  boolean,
   numeric,
   date,
   pgEnum,
 } from "drizzle-orm/pg-core";
-
+import { createInsertSchema } from "drizzle-zod"
 export const userRoles = pgEnum("user_roles", [
   "admin",
   "professor",
@@ -40,10 +39,10 @@ export const sessionTable = pgTable("session", {
 });
 
 export const itemStatus = pgEnum("item_status", [
-  "activo",
+  "disponible",
   "mantenimiento",
   "evento",
-  "inactivo",
+  "ocupado",
 ]);
 export const requestStatus = pgEnum("request_status", [
   "pendiente",
@@ -56,7 +55,7 @@ export const classroomTable = pgTable("classroom", {
   name: text("name").notNull(),
   description: text("description").notNull(),
   status: itemStatus("status").notNull(),
-  headquarterId: text("headquarter_id").notNull(),
+  headquarterId: text("headquarter_id").references(() => headquarterTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
 });
 
 export const classroomRelations = relations(
@@ -74,7 +73,7 @@ export const classroomRelations = relations(
 export const classroomImageTable = pgTable("classroom_image", {
   id: text("id").primaryKey(),
   imageUrl: text("image_url").notNull(),
-  classroomId: text("classroom_id").notNull(),
+  classroomId: text("classroom_id").references(() => classroomTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
 });
 
 export const classroomImageRelations = relations(
@@ -89,12 +88,17 @@ export const classroomImageRelations = relations(
 
 export const classroomRequestsTable = pgTable("classroom_request", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull(),
+  userId: text("user_id").references(() => userTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
   requestStartDate: date("request_startdate").notNull(),
   requestEndDate: date("request_enddate").notNull(),
-  classroomId: text("classroom_id").notNull(),
+  classroomId: text("classroom_id").references(() => classroomTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
   status: requestStatus("status").notNull(),
 });
+
+export type classroomRequestType = typeof classroomRequestsTable.$inferSelect;
+export const classroomRequestInsertSchema = createInsertSchema(classroomRequestsTable)
+
+export type classroomRequestInsert = typeof classroomRequestsTable.$inferInsert;
 
 export const classroomRequestsRelations = relations(
   classroomRequestsTable,
@@ -116,7 +120,7 @@ export const resourceTable = pgTable("resource", {
   description: text("description").notNull(),
   quantity: numeric("quantity").notNull(),
   status: itemStatus("status").notNull(),
-  headquarterId: text("headquarter_id").notNull(),
+  headquarterId: text("headquarter_id").references(() => headquarterTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
 });
 
 export const resourceRelations = relations(resourceTable, ({ one, many }) => ({
@@ -131,7 +135,7 @@ export const resourceRelations = relations(resourceTable, ({ one, many }) => ({
 export const resourceImageTable = pgTable("resource_image", {
   id: text("id").primaryKey(),
   imageUrl: text("image_url").notNull(),
-  resourceId: text("resource_id").notNull(),
+  resourceId: text("resource_id").references(() => resourceTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
 });
 
 export const resourceImageRelations = relations(
@@ -146,12 +150,18 @@ export const resourceImageRelations = relations(
 
 export const resourceRequestsTable = pgTable("resource_request", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull(),
+  userId: text("user_id").references(() => userTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
   requestStartDate: date("request_startdate").notNull(),
   requestEndDate: date("request_enddate").notNull(),
-  resourceId: text("resource_id").notNull(),
+  resourceId: text("resource_id").references(() => resourceTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
   status: requestStatus("status").notNull(),
 });
+
+export type resourceRequestType = typeof resourceRequestsTable.$inferSelect;
+export type resourceRequestInsert = typeof resourceRequestsTable.$inferInsert;
+
+export const resourceRequestInsertSchema = createInsertSchema(resourceRequestsTable)
+
 
 export const resourceRequestsRelations = relations(
   resourceRequestsTable,

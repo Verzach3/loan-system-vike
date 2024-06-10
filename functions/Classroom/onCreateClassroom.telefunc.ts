@@ -19,7 +19,7 @@ export const onCreateClassroom = async (classroom: ClassroomInsert) => {
     
     const { authorized, body, status } = await onCheckRole(
       session.user.id,
-      "admin"
+      ["admin", "student"]
     );
 
     if (!authorized) {
