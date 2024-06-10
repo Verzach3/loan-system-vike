@@ -2,15 +2,11 @@ import {
 	Group,
 	Code,
 	ScrollArea,
-	rem,
 	Text,
-	Stack,
-	Container,
 } from "@mantine/core";
 import {
 	IconNotes,
 	IconCalendarStats,
-	IconGauge,
 	IconPresentationAnalytics,
 	IconFileAnalytics,
 	IconAdjustments,
@@ -22,11 +18,11 @@ import { LinksGroup } from "./LinksGroup";
 import { UserButton } from "./UserButton";
 
 const mockdata = [
-	{ label: "Sedes", icon: IconBuilding },
+	{ label: "Sedes", icon: IconBuilding, link: "/dashboard/headquarters" },
+	{ label: "Salones", icon: IconBuilding, link: "/dashboard/classrooms" },
 	{
 		label: "Market news",
 		icon: IconNotes,
-		initiallyOpened: true,
 		links: [
 			{ label: "Overview", link: "/" },
 			{ label: "Forecasts", link: "/" },

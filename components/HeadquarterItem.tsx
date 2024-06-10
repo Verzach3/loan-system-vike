@@ -1,17 +1,14 @@
-import {
-	Card,
-	Image,
-	Text,
-} from "@mantine/core";
+import { Button, Card, Center, Image, Text } from "@mantine/core";
 import classes from "./ResourceItem.module.css";
+import { navigate } from "vike/client/router";
 
 type headquarter = {
-    id: string;
-    name: string;
-    description: string;
-    city: string;
-    country: string;
-}
+	id: string;
+	name: string;
+	description: string;
+	city: string;
+	country: string;
+};
 
 function HeadquarterItem({ headquarter }: { headquarter: headquarter }) {
 	return (
@@ -26,10 +23,21 @@ function HeadquarterItem({ headquarter }: { headquarter: headquarter }) {
 			<Text fw={700} className={classes.title} mt="xs">
 				{headquarter.name}
 			</Text>
-			<Text>
-				{headquarter.description}
-			</Text>
-
+			<Text>{headquarter.description}</Text>
+			<Card.Section>
+				<Center>
+					<Button
+						w={"100%"}
+						mx={"md"}
+						my={"md"}
+						onClick={() =>
+							navigate(`/dashboard/headquarters/${headquarter.id}`)
+						}
+					>
+						Ver
+					</Button>
+				</Center>
+			</Card.Section>
 		</Card>
 	);
 }

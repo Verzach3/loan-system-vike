@@ -1,35 +1,66 @@
 import HeadquarterItem from "@/components/HeadquarterItem";
-import { onGetHeadquarters } from "@/functions/Requests/onGetHeadquarters.telefunc";
-import { Affix, Button, Container, Grid, Group, LoadingOverlay, Title } from "@mantine/core";
-import { IconPlus } from "@tabler/icons-react";
+import HQCreateForm from "@/components/Headquarters/CreateForm";
+import { onGetHeadquarters } from "@/functions/Headquarters/onGetHeadquarters.telefunc";
+import {
+	Affix,
+	Button,
+	Container,
+	Grid,
+	Group,
+	LoadingOverlay,
+	Modal,
+	TextInput,
+	Title,
+} from "@mantine/core";
+import { useDebouncedState } from "@mantine/hooks";
+import { IconPlus, IconSearch } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Headquarters() {
-	const { data, isLoading } = useQuery({
-		queryKey: ["classrooms"],
+	const [searchValue, setSearchValue] = useState("");
+	const [isOpened, setIsOpened] = useState(false);
+	const { data, isLoading, refetch } = useQuery({
+		queryKey: ["headquarters"],
 		queryFn: onGetHeadquarters,
 	});
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		console.log(data);
-	});
+		refetch();
+	}, [isOpened]);
 
 	return (
 		<>
-			<Container mt={"md"}>
+			{isLoading && <LoadingOverlay visible={isLoading} />}
+			<Modal opened={isOpened} onClose={() => setIsOpened(false)}>
+				<HQCreateForm formOpened={setIsOpened} />
+			</Modal>
+			<Container mt={"md"} pb={"4rem"}>
 				<Title>Sedes</Title>
-        {isLoading && <LoadingOverlay visible={isLoading} />}
-				<Grid>
-					{data?.map((headquarter) => (
-						<Grid.Col span={{ base: 5 }} key={headquarter.id}>
-							<HeadquarterItem headquarter={headquarter} />
-						</Grid.Col>
-					))}
+				<Group grow>
+					<TextInput
+						value={searchValue}
+						onChange={(e) => setSearchValue(e.target.value)}
+						placeholder="Buscar"
+					/>
+				</Group>
+				<Grid mt={"lg"}>
+					{data
+						?.filter((headquarter) =>
+							headquarter.name.toLowerCase().includes(searchValue.toLowerCase()),
+						)
+						.map((headquarter) => (
+							<Grid.Col span={{ base: 3 }} key={headquarter.id}>
+								<HeadquarterItem headquarter={headquarter} />
+							</Grid.Col>
+						))}
 				</Grid>
 			</Container>
 			<Affix position={{ bottom: 20, right: 20 }}>
-				<Button leftSection={<IconPlus />}>Nueva Sede</Button>
+				<Button onClick={() => setIsOpened(true)} leftSection={<IconPlus />}>
+					Nueva Sede
+				</Button>
 			</Affix>
 		</>
 	);

@@ -1,5 +1,5 @@
-import { ClassroomInsert, classroomTable } from "@/database/schema";
-import { TelefuncContext } from "@/types";
+import { type ClassroomInsert, classroomTable } from "@/database/schema";
+import type { TelefuncContext } from "@/types";
 
 import { nanoid } from "nanoid";
 import { getContext } from "telefunc";
@@ -17,7 +17,7 @@ export const onCreateClassroom = async (classroom: ClassroomInsert) => {
 
   try {
     
-    const { authorized, body, status } = await onCheckRole(
+    const { authorized, body, status } = await onCheckRole(db,
       session.user.id,
       ["admin", "student"]
     );

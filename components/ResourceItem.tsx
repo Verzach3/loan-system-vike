@@ -5,9 +5,12 @@ import {
 	Text,
 	Badge,
 	ThemeIcon,
+	Button,
+	Center,
 } from "@mantine/core";
 import classes from "./ResourceItem.module.css";
 import { IconBuilding } from "@tabler/icons-react";
+import { navigate } from "vike/client/router";
 
 type Classroom = {
 	id: string;
@@ -25,6 +28,8 @@ type Classroom = {
 };
 
 function ResourceItem({ classroom }: { classroom: Classroom }) {
+	console.log(classroom.headquarter);
+	if (!classroom) return null;
 	return (
 		<Card withBorder padding="lg" radius="md" className={classes.card}>
 			<Card.Section mb="sm">
@@ -41,17 +46,17 @@ function ResourceItem({ classroom }: { classroom: Classroom }) {
 				</Badge>
 			)}
 			{classroom.status === "ocupado" && (
-				<Badge w="fit-content" variant="light" color="orange">
-					{classroom.status}
-				</Badge>
-			)}
-			{classroom.status === "evento" && (
 				<Badge w="fit-content" variant="light" color="red">
 					{classroom.status}
 				</Badge>
 			)}
+			{classroom.status === "evento" && (
+				<Badge w="fit-content" variant="light" color="orange">
+					{classroom.status}
+				</Badge>
+			)}
 			{classroom.status === "mantenimiento" && (
-				<Badge w="fit-content" variant="light" color="yellow">
+				<Badge w="fit-content" variant="light" color="black">
 					{classroom.status}
 				</Badge>
 			)}
@@ -71,6 +76,21 @@ function ResourceItem({ classroom }: { classroom: Classroom }) {
 					</Text>
 				</div>
 			</Group>
+
+			<Card.Section>
+				<Center>
+					<Button
+						w={"100%"}
+						mx={"sm"}
+						my={"sm"}
+						variant="filled"
+						color="blue"
+						onClick={() => navigate(`/dashboard/classrooms/${classroom.id}`)}
+					>
+						Ver
+					</Button>
+				</Center>
+			</Card.Section>
 		</Card>
 	);
 }
