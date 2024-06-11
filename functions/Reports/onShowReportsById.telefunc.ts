@@ -14,8 +14,6 @@ import {
 import { onCheckRole } from "../middleware/onCheckRole.telefunc";
 import type { statusReport } from "../types/reports.type";
 
-
-//TODO: Implement onShowReportsById
 export const onShowReportsById = async (userId: string, status?: statusReport) => {
     
     const { db, session } = getContext<TelefuncContext>();
@@ -35,6 +33,17 @@ export const onShowReportsById = async (userId: string, status?: statusReport) =
     }
 
    try {
+
+        const { authorized } = await onCheckRole(db, session.user.id, ['student']);
+
+        if (!authorized) {
+            return {
+                error: true,
+                message: 'Unauthorized',
+                status: 401
+            }
+        }
+
         const isUser = await db.select().from(userTable).where(eq(userTable.id, userId));
 
         if (!isUser) {
@@ -46,7 +55,13 @@ export const onShowReportsById = async (userId: string, status?: statusReport) =
 
         const query = await db.select().from(classroomRequestsTable).innerJoin(resourceRequestsTable, eq(classroomRequestsTable.userId, resourceRequestsTable.userId));
    
-        if (!query) return 'No reports found';
+        if (!query) {
+            return {
+                error: true,
+                message: 'Reports not found',
+                status: 404
+            }
+        }
 
         if (!status) {
             console.log(query);
@@ -58,7 +73,8 @@ export const onShowReportsById = async (userId: string, status?: statusReport) =
             }
         }
 
-        const result = query.filter(sts => sts.classroom_request.status && sts.resource_request.status === status.status);
+        const result = query.filter(sts => sts.classroom_request.status && sts.resource_request.status === status.status)
+            .filter(sts => sts.classroom_request.userId && sts.resource_request.userId === userId);
 
         console.log(result);
 

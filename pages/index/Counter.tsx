@@ -112,7 +112,7 @@ export function Counter() {
       {/* status is optional */}
       {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
       <button onClick={() => onShowReportsById("rwfxatujykvxqc63", {status: 'pendiente'})}>
-        show reports
+        show reports 
       </button>
       
       
