@@ -86,6 +86,10 @@ export const classroomImageRelations = relations(
   })
 );
 
+export type classroomImageTableSelect = typeof classroomImageTable.$inferSelect;
+export type classroomImageTableInsert = typeof classroomImageTable.$inferInsert;
+
+
 export const classroomRequestsTable = pgTable("classroom_request", {
   id: text("id").primaryKey(),
   userId: text("user_id").references(() => userTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
