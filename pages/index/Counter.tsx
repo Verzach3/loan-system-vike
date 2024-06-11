@@ -50,7 +50,7 @@ export function Counter() {
           onCreateClassroom({
             name: "salon 12",
             description: "salon 12",
-            status: "activo",
+            status: "disponible",
             headquarterId: "G2a2sLQMeDlp9rrM3kOTm",
           })
         }
@@ -64,7 +64,7 @@ export function Counter() {
           onCreateResource({
             name: "proyector",
             description: "proyector epson",
-            status: "activo",
+            status: "disponible",
             quantity: "10",
             headquarterId: "G2a2sLQMeDlp9rrM3kOTm",
           })
@@ -106,6 +106,12 @@ export function Counter() {
       >
         create resource request
       </button>
+
+
+      
+      
+      
+      
 
     </>
   );

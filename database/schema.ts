@@ -142,6 +142,9 @@ export const resourceImageTable = pgTable("resource_image", {
   resourceId: text("resource_id").references(() => resourceTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
 });
 
+export type resourceImageTableSelect = typeof resourceImageTable.$inferSelect;
+export type resourceImageTableInsert = typeof resourceImageTable.$inferInsert;
+
 export const resourceImageRelations = relations(
   resourceImageTable,
   ({ one }) => ({

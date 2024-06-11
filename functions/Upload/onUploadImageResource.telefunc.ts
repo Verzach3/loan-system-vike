@@ -1,12 +1,11 @@
 
-import type { ContextVariableMap } from "hono";
 import { getContext } from "telefunc";
 import type { TelefuncContext } from "@/types";
 import fs from 'node:fs';
 import { nanoid } from "nanoid";
-import { classroomImageTableInsert, classroomImageTable } from "@/database/schema";
+import { type resourceImageTableInsert, resourceImageTable } from "@/database/schema";
 
-export async function onFileUploadClassroom(file: string, data: { filename: string, classroomId: string }) {
+export async function onFileUploadResource(file: string, data: { filename: string, resourceId: string }) {
     
     const { db, session } = getContext<TelefuncContext>();
 
@@ -15,13 +14,7 @@ export async function onFileUploadClassroom(file: string, data: { filename: stri
         return { error: 401 };
     }
 
-    const { classroomId, filename } = data;
-
-    
-    //TODO: save file to disk and wrrite the path to the database
-    /*
-        id + file
-    */
+    const { resourceId, filename } = data;
     
     const fileContent = file.split(",")[1]
     console.log(fileContent.slice(0, 100));
@@ -41,18 +34,17 @@ export async function onFileUploadClassroom(file: string, data: { filename: stri
 
     // try saving the file path to the database
 
-    const uploadFile: classroomImageTableInsert = {
-        classroomId,
+    const uploadFile: resourceImageTableInsert = {
+        resourceId,
         id: fileId,
         imageUrl: filePath
     }
     
     try {
-        await db.insert(classroomImageTable).values(uploadFile).execute();
+        await db.insert(resourceImageTable).values(uploadFile);
     } catch(e) {
         console.log(`Error saving file to database: ${e}`);
         return { error: 500 };
     }
-
 
 }

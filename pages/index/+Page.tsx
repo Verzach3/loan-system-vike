@@ -1,17 +1,10 @@
-import React from "react";
-import { Counter } from "./Counter.js";
+import FileUpload from "./FileUpload";
 
 export default function Page() {
   return (
     <>
-      <h1>My Vike app</h1>
-      This page is:
-      <ul>
-        <li>Rendered to HTML.</li>
-        <li>
-          Interactive. <Counter />
-        </li>
-      </ul>
+      <h1>Index Page</h1>
+      <FileUpload />
     </>
   );
 }
