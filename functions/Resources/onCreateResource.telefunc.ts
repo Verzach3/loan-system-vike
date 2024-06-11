@@ -18,6 +18,7 @@ export const onCreateResource = async (resource: ResourceInsert) => {
   try {
 
     const { authorized, body, status } = await onCheckRole(
+      db,
       session.user.id,
       ["admin", "student"]
     );
