@@ -6,6 +6,7 @@ import { onCreateClassroom } from "@/functions/Classroom/onCreateClassroom.telef
 import { onCreateResource } from "@/functions/Resources/onCreateResource.telefunc";
 import { onCreateClassroomRequest } from "@/functions/Requests/onCreateClassroomRequest.telefunc";
 import { onCreateResourceRequest } from "@/functions/Requests/onCreateResourceRequest.telefunc";
+import { onShowReportsById } from "@/functions/Reports/onShowReportsById.telefunc";
 
 export function Counter() {
   return (
@@ -108,7 +109,11 @@ export function Counter() {
       </button>
 
 
-      
+      {/* status is optional */}
+      {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+      <button onClick={() => onShowReportsById("rwfxatujykvxqc63", {status: 'pendiente'})}>
+        show reports
+      </button>
       
       
       
