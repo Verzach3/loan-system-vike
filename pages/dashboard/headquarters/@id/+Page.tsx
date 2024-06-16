@@ -14,7 +14,7 @@ import {
 import { navigate } from "vike/client/router";
 function ViewHeadquarter() {
 	const data = useData<HeadquarterData>();
-
+ 
 	if (!data) {
 		return (
 			<Stack h={"100vh"} align="center" justify="center">
