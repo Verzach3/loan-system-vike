@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Container, Stack, Table, Tabs, Title } from "@mantine/core";
+import { Badge, Button, Card, Container, Stack, Table, Tabs, Title, Text } from "@mantine/core";
 import { useData } from "vike-react/useData";
 import { navigate } from "vike/client/router";
 import type { ClassroomData } from "./+data";
@@ -6,7 +6,7 @@ import type { ClassroomData } from "./+data";
 function ViewClassroom() {
 	const data = useData<ClassroomData>();
 
-	if (!data) {
+	if (data?.status === 404) {
 		return (
 			<Stack h={"100vh"} align="center" justify="center">
 				<Title ta={"center"}>No se encontró la sede</Title>

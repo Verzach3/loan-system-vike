@@ -76,6 +76,11 @@ export const classroomImageTable = pgTable("classroom_image", {
   classroomId: text("classroom_id").references(() => classroomTable.id, { onDelete: "cascade", onUpdate: "cascade" }).notNull(),
 });
 
+
+
+// ---- Relations ---- //
+
+
 export const classroomImageRelations = relations(
   classroomImageTable,
   ({ one }) => ({
@@ -135,6 +140,7 @@ export const resourceRelations = relations(resourceTable, ({ one, many }) => ({
   images: many(resourceImageTable),
   requests: many(resourceRequestsTable),
 }));
+
 
 export const resourceImageTable = pgTable("resource_image", {
   id: text("id").primaryKey(),

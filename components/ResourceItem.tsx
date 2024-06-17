@@ -27,7 +27,7 @@ type Classroom = {
 	};
 };
 
-function ResourceItem({ classroom }: { classroom: Classroom }) {
+function ResourceItem({ classroom, type }: { classroom: Classroom; type: "resource" | "classroom" }) {
 	console.log(classroom.headquarter);
 	if (!classroom) return null;
 	return (
@@ -39,7 +39,7 @@ function ResourceItem({ classroom }: { classroom: Classroom }) {
 					height={180}
 				/>
 			</Card.Section>
-
+			
 			{classroom.status === "disponible" && (
 				<Badge w="fit-content" variant="light" color="green">
 					{classroom.status}
@@ -70,7 +70,7 @@ function ResourceItem({ classroom }: { classroom: Classroom }) {
 					<IconBuilding />
 				</ThemeIcon>
 				<div>
-					<Text fw={500}>{classroom.headquarter.name}</Text>
+					<Text fw={500} td={"underline"} c={"blue"} >{classroom.headquarter.name}</Text>
 					<Text fz="xs" c="dimmed">
 						{classroom.headquarter.city}, {classroom.headquarter.country}
 					</Text>
@@ -85,7 +85,7 @@ function ResourceItem({ classroom }: { classroom: Classroom }) {
 						my={"sm"}
 						variant="filled"
 						color="blue"
-						onClick={() => navigate(`/dashboard/classrooms/${classroom.id}`)}
+						onClick={() => navigate(`/dashboard/${type === "resource" ? "resources" : "classrooms"}/${classroom.id}`)}
 					>
 						Ver
 					</Button>

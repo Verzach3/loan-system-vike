@@ -42,9 +42,16 @@ export async function onFileUploadClassroom(file: string, data: { filename: stri
     
     try {
         await db.insert(classroomImageTable).values(uploadFile);
+
+        return {
+            status: 200,
+            message: "File uploaded successfully",
+            error: false
+        }
+
     } catch(e) {
         console.log(`Error saving file to database: ${e}`);
-        return { error: 500 };
+        return { status: 500, message: "Error saving file to database", error: true};
     }
 
 }

@@ -19,9 +19,9 @@ export async function onLogin({
 
 	if (!user) {
 		return {
-			status: 401,
+			status: 400,
 			body: {
-				message: "Invalid email or password",
+				message: "El usuario no existe",
 			},
 		};
 	}
@@ -38,7 +38,7 @@ export async function onLogin({
 		return {
 			status: 401,
 			body: {
-				message: "Invalid email or password",
+				message: "La contraseña no es válida",
 			},
 		};
 	}
@@ -50,7 +50,7 @@ export async function onLogin({
 	return {
 		status: 200,
 		body: {
-			message: "Login successful",
+			message: "Sesión iniciada con exito",
 		},
 	};
 }

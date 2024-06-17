@@ -1,7 +1,6 @@
 import CRCreateForm from "@/components/Classrooms/CreateForm";
 import ResourceItem from "@/components/ResourceItem";
 import { onGetHeadquarters } from "@/functions/Headquarters/onGetHeadquarters.telefunc";
-import { onGetClassrooms } from "@/functions/Classroom/onGetClassrooms.telefunc";
 import {
 	Affix,
 	Button,
@@ -15,12 +14,13 @@ import {
 import { IconPlus } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { onGetResources } from "@/functions/Resources/onGetResources.telefunc";
 
-function Classrooms() {
+function Resources() {
 	const [isOpened, setIsOpened] = useState(false);
 	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["classrooms"],
-		queryFn: onGetClassrooms,
+		queryFn: onGetResources,
 	});
 
 	const [selectedHQ, setSelectedHQ] = useState<string | null>(null);
@@ -64,12 +64,12 @@ function Classrooms() {
 				<Grid mt={"lg"}>
 					{!isLoading &&
 						data
-							?.filter((classroom) =>
-								classroom.headquarterId.includes(selectedHQ ?? ""),
+							?.filter((resource) =>
+								resource.headquarterId.includes(selectedHQ ?? ""),
 							)
-							.map((classroom) => (
-								<Grid.Col span={{ base: 6 }} key={classroom.id}>
-									<ResourceItem type="classroom" classroom={classroom} />
+							.map((resource) => (
+								<Grid.Col span={{ base: 6 }} key={resource.id}>
+									<ResourceItem type="resource" classroom={resource} />
 								</Grid.Col>
 							))}
 				</Grid>
@@ -83,4 +83,4 @@ function Classrooms() {
 	);
 }
 
-export default Classrooms;
+export default Resources;

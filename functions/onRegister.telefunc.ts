@@ -14,23 +14,34 @@ export async function onRegister({
 	const { lucia, db, aditionalCookies, aditionalHeaders } =
 		getContext<TelefuncContext>();
 	// validate the input
-	const input = registerSchema.parse({ email, password, name });
-
+	const input = registerSchema.safeParse({ email, password, name });
+	if (!input.success) {
+		return {
+			status: 400,
+			body: { message: input.error.message },
+			error: true,
+		};
+	}
+	const parsedInput = input.data;
 	//check if the user exists
 	const user = (
-		await db.select().from(userTable).where(eq(userTable.email, input.email))
+		await db
+			.select()
+			.from(userTable)
+			.where(eq(userTable.email, parsedInput.email))
 	)[0];
 
 	if (user) {
 		return {
 			status: 400,
 			body: {
-				message: "User already exists",
+				message: "El usuario ya existe",
 			},
+			error: true,
 		};
 	}
 
-	const passwordHash = await hash(input.password, {
+	const passwordHash = await hash(parsedInput.password, {
 		memoryCost: 19456,
 		timeCost: 2,
 		outputLen: 32,
@@ -41,8 +52,8 @@ export async function onRegister({
 
 	await db.insert(userTable).values({
 		id: userId,
-		email: input.email,
-		name: input.name,
+		email: parsedInput.email,
+		name: parsedInput.name,
 		password: passwordHash,
 	});
 
@@ -55,7 +66,7 @@ export async function onRegister({
 	return {
 		status: 200,
 		body: {
-			message: "User created",
+			message: "Cuenta creada con exito",
 		},
 	};
 }

@@ -14,6 +14,7 @@ import {
 import { onCheckRole } from "../middleware/onCheckRole.telefunc";
 import type { statusReport } from "../types/reports.type";
 
+
 export const onShowReportsById = async (userId: string, status?: statusReport) => {
     
     const { db, session } = getContext<TelefuncContext>();
@@ -53,7 +54,9 @@ export const onShowReportsById = async (userId: string, status?: statusReport) =
             }
         }
 
-        const query = await db.select().from(classroomRequestsTable).innerJoin(resourceRequestsTable, eq(classroomRequestsTable.userId, resourceRequestsTable.userId));
+        const query = await db.select().from(classroomRequestsTable)
+            .innerJoin(resourceRequestsTable, eq(classroomRequestsTable.userId, resourceRequestsTable.userId))
+            .where(eq(classroomRequestsTable.userId, userId));
    
         if (!query) {
             return {
@@ -64,7 +67,6 @@ export const onShowReportsById = async (userId: string, status?: statusReport) =
         }
 
         if (!status) {
-            console.log(query);
             return {
                 error: false,
                 message: 'Reports found',
@@ -73,15 +75,10 @@ export const onShowReportsById = async (userId: string, status?: statusReport) =
             }
         }
 
-        const result = query.filter(sts => sts.classroom_request.status && sts.resource_request.status === status.status)
-            .filter(sts => sts.classroom_request.userId && sts.resource_request.userId === userId);
-
-        console.log(result);
-
         return {
                 error: false,
                 message: 'Reports found',
-                data: result,
+                data: ["HOLA", "MUNDO"],
                 status: 200
             }
 
