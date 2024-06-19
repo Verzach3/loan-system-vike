@@ -11,11 +11,10 @@ export function HeroBullets() {
       <div className={classes.inner}>
         <div className={classes.content}>
           <Title className={classes.title}>
-            A <span className={classes.highlight}>modern</span> React <br /> components library
+            ¡Bienvenido a LoanSystem de la Universidad del Valle!
           </Title>
 
           <Text c="dimmed" mt="md">
-            ¡Bienvenido a LoanSystem de la Universidad del Valle!
             Facilita la gestión de préstamos de salones y recursos universitarios. 
             Reserva de manera rápida y sencilla los espacios y equipos que necesitas. ¡Optimiza tu tiempo y recursos con LoanSystem!
           </Text>
@@ -31,25 +30,22 @@ export function HeroBullets() {
             }
           >
             <List.Item>
-              <b>TypeScript based</b> – build type safe applications, all components and hooks
-              export types
+              <b>Peticiones de Salones</b> –  Las peticiones de salones se realizan de manera rápida y sencilla
             </List.Item>
             <List.Item>
-              <b>Free and open source</b> – all packages have MIT license, you can use Mantine in
-              any project
+              <b>Peticiones de Recursos</b> – Las peticiones de recursos se realizan de manera rápida y sencilla
             </List.Item>
             <List.Item>
-              <b>No annoying focus ring</b> – focus ring will appear only when user navigates with
-              keyboard
+              <b>Calendario eficiente</b> – Visualiza tus reservas de manera eficiente
             </List.Item>
           </List>
 
           <Group mt={30}>
             <Button radius="xl" size="md" className={classes.control}>
-              Get started
+              Reserva ahora
             </Button>
             <Button variant="default" radius="xl" size="md" className={classes.control}>
-              Source code
+               Conoce más
             </Button>
           </Group>
         </div>

@@ -10,6 +10,7 @@ import { IconLogout, IconUser } from "@tabler/icons-react";
 import classes from "./UserButton.module.css";
 import { useQuery } from "@tanstack/react-query";
 import { onGetUserData } from "@/functions/onGetUserData.telefunc";
+import { onLogout } from "@/functions/onLogout.telefunc";
 
 export function UserButton() {
 	const { data } = useQuery({
@@ -35,7 +36,10 @@ export function UserButton() {
 					<Badge>{data?.role}</Badge>
 				</div>
 
-				<ActionIcon component="a" variant="transparent" href="/logout">
+				<ActionIcon component="a" variant="transparent" onClick={async () => {
+					await onLogout()
+					window.location.href = "/"
+				}}>
 					<IconLogout />
 				</ActionIcon>
 			</Group>

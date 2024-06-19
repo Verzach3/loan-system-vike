@@ -17,25 +17,43 @@ export const onShowRequest = async () => {
 	}
 
 	try {
-		const resourceQuery = await db.query.resourceTable.findMany({
-			with: {
-				requests: {
-					with: {
-						user: true,
-					},
-				},
-			},
-		});
+		const resourceQuery = await db
+			.select({
+				id: resourceRequestsTable.id,
+				userId: userTable.id,
+				name: userTable.name,
+				email: userTable.email,
+				requestStartDate: resourceRequestsTable.requestStartDate,
+				requestEndDate: resourceRequestsTable.requestEndDate,
+				status: resourceRequestsTable.status,
+				role: userTable.role,
+				resourceId: resourceRequestsTable.resourceId,
+			})
+			.from(userTable)
+			.innerJoin(
+				resourceRequestsTable,
+				eq(userTable.id, resourceRequestsTable.userId),
+			)
+			.where(eq(userTable.id, session.user.id));
 
-		const classroomQuery = await db.query.classroomTable.findMany({
-			with: {
-				requests: {
-					with: {
-						user: true,
-					},
-				},
-			},
-		});
+		const classroomQuery = await db
+			.select({
+				id: classroomRequestsTable.id,
+				userId: userTable.id,
+				name: userTable.name,
+				email: userTable.email,
+				requestStartDate: classroomRequestsTable.requestStartDate,
+				requestEndDate: classroomRequestsTable.requestEndDate,
+				status: classroomRequestsTable.status,
+				role: userTable.role,
+				classroomId: classroomRequestsTable.classroomId,
+			})
+			.from(userTable)
+			.innerJoin(
+				classroomRequestsTable,
+				eq(userTable.id, classroomRequestsTable.userId),
+			)
+			.where(eq(userTable.id, session.user.id));
 
 		return {
 			data: {

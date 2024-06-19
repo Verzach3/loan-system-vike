@@ -9,7 +9,7 @@ export async function guard(pageContext: PageContext) {
 			await onCheckRole(
 				pageContext.db,
 				pageContext.session?.user.id ?? "",
-				["admin", "student"],
+				["admin", "student", "professor"],
 				pageContext.session,
 			)
 		).authorized

@@ -1,6 +1,7 @@
-import type { classroomRequestInsert } from "@/database/schema";
+import type { classroomRequestInsert, resourceRequestInsert } from "@/database/schema";
 import { onGetHeadquarters } from "@/functions/Headquarters/onGetHeadquarters.telefunc";
 import { onCreateClassroomRequest } from "@/functions/Requests/onCreateClassroomRequest.telefunc";
+import { onCreateResourceRequest } from "@/functions/Requests/onCreateResourceRequest.telefunc";
 import { Button, LoadingOverlay, Title } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -16,12 +17,12 @@ function CRRequestForm({
 		queryKey: ["headquarters"],
 		queryFn: onGetHeadquarters,
 	});
-	const form = useForm<classroomRequestInsert>({
+	const form = useForm<resourceRequestInsert>({
 		mode: "controlled",
 		initialValues: {
 			requestStartDate: "",
 			requestEndDate: "",
-			classroomId: `${window.location.href.split("/").pop()}`,
+			resourceId: `${window.location.href.split("/").pop()}`,
 			status: "pendiente",
 		},
 		validate: {
@@ -33,7 +34,7 @@ function CRRequestForm({
 				z.date().safeParse(value).success
 					? null
 					: "La fecha de fin debe tener entre 3 y 50 caracteres",
-			classroomId: (value) =>
+			resourceId: (value) =>
 				z.string().safeParse(value).success
 					? null
 					: "El id del salón debe tener entre 3 y 50 caracteres",
@@ -47,12 +48,12 @@ function CRRequestForm({
 		<>
 			{isLoading && <LoadingOverlay visible={isLoading} />}
 			<Title ta={"center"} mb={"xl"}>
-				Petición de salón
+				Petición de recurso
 			</Title>
 			<form
 				onSubmit={form.onSubmit(async (values) => {
 					formOpened(true);
-					const res = await onCreateClassroomRequest({
+					const res = await onCreateResourceRequest({
 						...values,
 						requestStartDate: dayjs(values.requestStartDate).format(
 							"YYYY-MM-DD",

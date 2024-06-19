@@ -172,7 +172,7 @@ export const resourceRequestsTable = pgTable("resource_request", {
 });
 
 export type resourceRequestType = typeof resourceRequestsTable.$inferSelect;
-export type resourceRequestInsert = typeof resourceRequestsTable.$inferInsert;
+export type resourceRequestInsert = Omit<typeof resourceRequestsTable.$inferInsert, "id" | "userId">
 
 export const resourceRequestInsertSchema = createInsertSchema(resourceRequestsTable)
 

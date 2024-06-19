@@ -6,7 +6,7 @@ import { onCreateClassroom } from "@/functions/Classroom/onCreateClassroom.telef
 import { onCreateResource } from "@/functions/Resources/onCreateResource.telefunc";
 import { onCreateClassroomRequest } from "@/functions/Requests/onCreateClassroomRequest.telefunc";
 import { onCreateResourceRequest } from "@/functions/Requests/onCreateResourceRequest.telefunc";
-
+import { onUpdateClassroomRequest } from "@/functions/Requests/onUpdateClassroomRequest.telefunc";
 // TODO: add the function show reports with id
 import { onShowReports } from "@/functions/Reports/onShowReports.telefunc";
 
@@ -117,6 +117,11 @@ export function Counter() {
         show reports 
       </button>
       
+
+      {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+      <button onClick={() => onUpdateClassroomRequest({status: "rechazado", classroomId: "Zlag3Ie9fjQ92Qa30gigK", requestEndDate: "2024-06-18", requestStartDate: "2024-06-18"}, "qvLN7lyZtPXkryjFQkhQ4") }>
+        update classroomRequest
+      </button>
       
     </>
   );

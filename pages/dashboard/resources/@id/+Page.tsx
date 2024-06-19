@@ -1,30 +1,30 @@
 import {
-	Badge,
-	Button,
-	Card,
 	Container,
 	Stack,
-	Table,
+	Button,
 	Title,
-	Group,
-	Indicator,
-	Popover,
 	Text,
+	Badge,
+	Popover,
+	Indicator,
 	Affix,
+	Card,
+	Group,
 	Modal,
+	Table,
 } from "@mantine/core";
-import { useData } from "vike-react/useData";
-import type { ClassroomData } from "./+data";
-import { IconExternalLink } from "@tabler/icons-react";
 import { Calendar } from "@mantine/dates";
-import dayjs from "dayjs";
+import type { ResourceData } from "./+data";
+import { useData } from "vike-react/useData";
 import { useDisclosure } from "@mantine/hooks";
-import { Form } from "@mantine/form";
-import RequestClassroomForm from "@/components/Classrooms/RequestClassroomForm";
 import { useState } from "react";
+import RequestClassroomForm from "@/components/Classrooms/RequestClassroomForm";
+import { IconExternalLink } from "@tabler/icons-react";
+import dayjs from "dayjs";
+import RequestResourceForm from "@/components/Resources/RequestResourceForm";
 
-function ViewClassroom() {
-	const data = useData<ClassroomData>();
+function ViewResource() {
+	const data = useData<ResourceData>();
 	const [opened, { open, close }] = useDisclosure(false);
 	const [isOpened, setIsOpened] = useState(false);
 
@@ -38,21 +38,21 @@ function ViewClassroom() {
 			</Stack>
 		);
 	}
-	const { classroom, classroomReservations } = data.body;
+	const { resource, resources } = data.body;
 	return (
 		<Container>
 			<Card withBorder bg={"gray.1"} h={"90dvh"} pb={"xl"} mt="md">
 				<Card bg={"gray.2"} withBorder mb={"md"}>
 					<Group grow justify="space-between">
 						<Stack h={"100%"} justify="flex-start">
-							<Title>{classroom.name}</Title>
+							<Title>{resource.name}</Title>
 							<Group>
 								<Button
 									component="a"
-									href={`/dashboard/headquarters/${classroom.headquarter.id}`}
+									href={`/dashboard/headquarters/${resource.headquarter.id}`}
 									rightSection={<IconExternalLink />}
 								>
-									Sede: {classroom.headquarter.name}
+									Sede: {resource.headquarter.name}
 								</Button>
 							</Group>
 						</Stack>
@@ -62,9 +62,9 @@ function ViewClassroom() {
 								renderDay={(date) => {
 									const [opened, { close, open }] = useDisclosure(false);
 									const day = date.getDate();
-									const currReservation = classroomReservations.find(
-										(reservation) =>
-											dayjs(reservation.requestStartDate).format(
+									const currReservation = resources.find(
+										(resource) =>
+											dayjs(resource.requestStartDate).format(
 												"DD-MM-YYYY",
 											) === dayjs(date).format("DD-MM-YYYY"),
 									);
@@ -108,7 +108,7 @@ function ViewClassroom() {
 							</Table.Tr>
 						</Table.Thead>
 						<Table.Tbody>
-							{classroomReservations.map((reservation) => {
+							{resources.map((reservation) => {
 								let color = null;
 								switch (reservation.status) {
 									case "aprobado":
@@ -143,14 +143,11 @@ function ViewClassroom() {
 				</Affix>
 			</Card>
 
-			<Modal
-				opened={opened}
-				onClose={close}
-			>
-				<RequestClassroomForm formOpened={setIsOpened} />
+			<Modal opened={opened} onClose={close}>
+				<RequestResourceForm formOpened={setIsOpened} />
 			</Modal>
 		</Container>
 	);
 }
 
-export default ViewClassroom;
+export default ViewResource;
