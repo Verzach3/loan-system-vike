@@ -17,6 +17,9 @@ import { IconPlus } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
+
+
+
 function Headquarters() {
 	const [searchValue, setSearchValue] = useState("");
 	const [isOpened, setIsOpened] = useState(false);
@@ -66,9 +69,16 @@ function Headquarters() {
 			</Container>
 			<Affix position={{ bottom: 20, right: 20 }}>
 				{userDate?.role === "admin" && (
-					<Button onClick={() => setIsOpened(true)} leftSection={<IconPlus />}>
-						Nueva Sede
+					<>
+						<Button onClick={() => setIsOpened(true)} leftSection={<IconPlus />}>
+							Nueva Sede
+						</Button>
+
+					<Button onClick={() => "Eliminar" } leftSection={<IconPlus />}>
+						Eliminar Sede
 					</Button>
+					
+					</>
 				)}
 			</Affix>
 		</>

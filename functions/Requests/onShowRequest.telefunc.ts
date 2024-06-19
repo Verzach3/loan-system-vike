@@ -34,7 +34,7 @@ export const onShowRequest = async () => {
 				resourceRequestsTable,
 				eq(userTable.id, resourceRequestsTable.userId),
 			)
-			.where(eq(userTable.id, session.user.id));
+		
 
 		const classroomQuery = await db
 			.select({
@@ -53,7 +53,7 @@ export const onShowRequest = async () => {
 				classroomRequestsTable,
 				eq(userTable.id, classroomRequestsTable.userId),
 			)
-			.where(eq(userTable.id, session.user.id));
+			
 
 		return {
 			data: {

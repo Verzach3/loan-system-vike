@@ -71,7 +71,7 @@ export const onCreateResourceRequest = async (
 	const { authorized } = await onCheckRole(
 		db,
 		session.user.id,
-		["admin", "student"],
+		["admin", "student", "professor"],
 		session,
 	);
 
