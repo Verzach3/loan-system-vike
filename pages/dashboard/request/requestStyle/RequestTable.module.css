@@ -1,0 +1,45 @@
+.table {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+  
+  /* Estilos para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .table table {
+      width: 100%;
+      table-layout: fixed;
+    }
+  
+    .table th,
+    .table td {
+      word-wrap: break-word;
+      white-space: normal;
+    }
+  }
+
+  .segment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+
+
+.titleSl {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }

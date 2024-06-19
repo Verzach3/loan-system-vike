@@ -1,6 +1,6 @@
-import { TelefuncContext } from "@/types";
+import type { TelefuncContext } from "@/types";
 import { getContext } from "telefunc";
-import { onCheckRole } from "./onCheckRole.telefunc";
+import { onCheckRole } from "./onCheckRole.server";
 import { userTable } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
@@ -19,15 +19,9 @@ export const onCheckUser = async (userId: string) => {
     }
 
     try {
-        const { authorized, body, status } = await onCheckRole(db, session.user.id, ["admin"]);
+        //const { authorized, body, status } = await onCheckRole(db, session.user.id, ["admin"]);
 
-        if (!authorized) {
-            return {
-                status,
-                body,
-                error: true
-            };
-        }
+       
 
         const user = await db.select().from(userTable).where(eq(userTable.id, userId));
 

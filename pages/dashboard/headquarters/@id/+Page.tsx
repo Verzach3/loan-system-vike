@@ -11,7 +11,6 @@ import {
 	Text,
 	Title,
 } from "@mantine/core";
-import { navigate } from "vike/client/router";
 function ViewHeadquarter() {
 	const data = useData<HeadquarterData>();
  
@@ -19,7 +18,7 @@ function ViewHeadquarter() {
 		return (
 			<Stack h={"100vh"} align="center" justify="center">
 				<Title ta={"center"}>No se encontró la sede</Title>
-				<Button onClick={() => navigate("/dashboard/headquarters")}>
+				<Button component="a" href="/dashboard/headquarters">
 					Volver
 				</Button>
 			</Stack>

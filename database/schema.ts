@@ -7,7 +7,9 @@ import {
   date,
   pgEnum,
 } from "drizzle-orm/pg-core";
+
 import { createInsertSchema } from "drizzle-zod"
+
 export const userRoles = pgEnum("user_roles", [
   "admin",
   "professor",
@@ -106,8 +108,7 @@ export const classroomRequestsTable = pgTable("classroom_request", {
 
 export type classroomRequestType = typeof classroomRequestsTable.$inferSelect;
 export const classroomRequestInsertSchema = createInsertSchema(classroomRequestsTable)
-
-export type classroomRequestInsert = typeof classroomRequestsTable.$inferInsert;
+export type classroomRequestInsert = Omit<typeof classroomRequestsTable.$inferInsert, "id" | "userId">;
 
 export const classroomRequestsRelations = relations(
   classroomRequestsTable,

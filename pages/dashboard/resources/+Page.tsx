@@ -1,4 +1,4 @@
-import CRCreateForm from "@/components/Classrooms/CreateForm";
+import RSCreateForm from "@/components/Resources/CreateForm";
 import ResourceItem from "@/components/ResourceItem";
 import { onGetHeadquarters } from "@/functions/Headquarters/onGetHeadquarters.telefunc";
 import {
@@ -41,10 +41,10 @@ function Resources() {
 	return (
 		<>
 			<Modal opened={isOpened} onClose={() => setIsOpened(false)}>
-				<CRCreateForm formOpened={setIsOpened} />
+				<RSCreateForm formOpened={setIsOpened} />
 			</Modal>
 			<Container mt={"md"} pb={"4rem"} >
-				<Title>Salones</Title>
+				<Title>Recursos</Title>
 				{isLoading && <LoadingOverlay visible={isLoading} />}
 				<Select
 					data={dataHQ?.map((headquarter) => ({
@@ -75,7 +75,7 @@ function Resources() {
 				</Grid>
 				<Affix position={{ bottom: 20, right: 20 }}>
 					<Button leftSection={<IconPlus />} onClick={() => setIsOpened(true)}>
-						Nueva Sede
+						Nuevo recurso
 					</Button>
 				</Affix>
 			</Container>

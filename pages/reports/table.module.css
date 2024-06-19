@@ -1,0 +1,57 @@
+.table-container {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+  
+  /* Estilos para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .table-container table {
+      width: 100%;
+      table-layout: fixed;
+    }
+  
+    .table-container th,
+    .table-container td {
+      word-wrap: break-word;
+      white-space: normal;
+    }
+  }
+
+
+.SelectFilter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .SelectFilter label {
+    margin-right: 10px;
+  }
+  
+  .SelectFilter select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .SelectFilter button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .SelectFilter button:hover {
+    background-color: #0056b3;
+}

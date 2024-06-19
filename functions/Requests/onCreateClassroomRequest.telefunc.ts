@@ -1,13 +1,11 @@
 import { getContext } from "telefunc";
-import { onCheckRole } from "../middleware/onCheckRole.telefunc";
+import { onCheckRole } from "../middleware/onCheckRole.server";
 import type { TelefuncContext } from "@/types";
 import {
 	classroomRequestInsertSchema,
 	type classroomRequestInsert,
-	classroomTable,
 	classroomRequestsTable,
 } from "@/database/schema";
-import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 export const onCreateClassroomRequest = async (
@@ -15,10 +13,20 @@ export const onCreateClassroomRequest = async (
 ) => {
 	const { db, session } = getContext<TelefuncContext>();
 
+	if (!session || !session.user) {
+		return {
+			status: 401,
+			body: "Unauthorized",
+			error: true,
+		};
+	}
+
 	const id = nanoid();
 	const reqwithId = {
 		...request,
 		id,
+		userId: session.user.id,
+		status: "pendiente" as const,
 	};
 
 	//validate the input
@@ -32,19 +40,11 @@ export const onCreateClassroomRequest = async (
 		};
 	}
 
-	if (!session) {
-		return {
-			status: 401,
-			body: "Unauthorized",
-			error: true,
-		};
-	}
-
 	//check if the classroom exists
-	const isClassroom = await db
-		.select()
-		.from(classroomTable)
-		.where(eq(classroomTable.id, reqwithId.classroomId));
+	const isClassroom = await db.query.classroomTable.findFirst({
+		where: (classroomTable, { eq }) =>
+			eq(classroomTable.id, reqwithId.classroomId),
+	});
 
 	if (!isClassroom) {
 		console.log("Classroom does not exist");
@@ -56,20 +56,24 @@ export const onCreateClassroomRequest = async (
 	}
 
 	//check if classroom is already requested
-	if (["ocupado", "evento", "mantenimiento"].includes(isClassroom[0].status)) {
-        console.log(`It is not possible to make the request, the room is ${isClassroom[0].status}`);
-        return {
-            status: 400,
-            body: `It is not possible to make the request, the room is ${isClassroom[0].status}`,
-            error: true,
-        };
-    }
+	if (["evento", "mantenimiento"].includes(isClassroom.status)) {
+		console.log(
+			`It is not possible to make the request, the room is ${isClassroom.status}`,
+		);
+		return {
+			status: 400,
+			body: `It is not possible to make the request, the room is ${isClassroom.status}`,
+			error: true,
+		};
+	}
 
 	//check if the user is authorized
-	const { authorized } = await onCheckRole(db, session.user.id, [
-		"admin",
-		"student",
-	]);
+	const { authorized } = await onCheckRole(
+		db,
+		session.user.id,
+		["admin", "professor"],
+		session,
+	);
 
 	if (!authorized) {
 		console.log("Unauthorized");

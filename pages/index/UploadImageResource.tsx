@@ -4,19 +4,19 @@ import { Dropzone } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { IconFileUpload } from "@tabler/icons-react";
 import { useRef, useState } from "react";
-import { reload } from "vike/client/router";
 
-export default function UploadImageClassroom({ resourceId }: { resourceId: string }) {
+export default function UploadImageClassroom({
+	resourceId,
+}: { resourceId: string }) {
 	const openRef = useRef<() => void>(null);
 
 	const [file, setFile] = useState<FileList>();
 	const [result, setResult] = useState("");
-  
- 
+
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setFile(e.target.files);
-    }
+		if (e.target.files?.[0]) {
+			setFile(e.target.files);
+		}
 	};
 
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -26,19 +26,18 @@ export default function UploadImageClassroom({ resourceId }: { resourceId: strin
 
 		const reader = new FileReader();
 
-    for (let i = 0; i < file.length; i++) {
-      reader.readAsDataURL(file[i]);
+		for (let i = 0; i < file.length; i++) {
+			reader.readAsDataURL(file[i]);
 
-      reader.onload = async () => {
-        const base64url = reader.result as string;
-        onFileUploadResource(base64url, {
-          filename: file[i].name,
-          resourceId,
-        });
-        setResult("Upload successful");
-      };
-    }
-		
+			reader.onload = async () => {
+				const base64url = reader.result as string;
+				onFileUploadResource(base64url, {
+					filename: file[i].name,
+					resourceId,
+				});
+				setResult("Upload successful");
+			};
+		}
 	};
 
 	return (
@@ -64,14 +63,14 @@ export default function UploadImageClassroom({ resourceId }: { resourceId: strin
 							const base64 = reader.result as string;
 							await onFileUploadResource(base64, {
 								filename: file.name,
-								resourceId
+								resourceId,
 							});
 							notifications.show({
 								title: `Archivo ${file.name} cargado correctamente`,
 								message: "El archivo ha sido cargado correctamente",
 							});
 						};
-						reload();
+						window.location.reload();
 					}
 				}}
 				activateOnClick={false}

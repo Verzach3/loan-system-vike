@@ -1,5 +1,3 @@
-
-
 import { getContext } from "telefunc";
 import type { TelefuncContext } from "@/types";
 import {
@@ -11,7 +9,7 @@ import {
 	type classroomRequestInsert,
     } from "@/database/schema";   
 
-import { onCheckRole } from "../middleware/onCheckRole.telefunc";
+import { onCheckRole } from "../middleware/onCheckRole.server";
 import type { statusReport } from "../types/reports.type";
 import { eq } from "drizzle-orm";
 
@@ -30,7 +28,7 @@ export const onShowReports = async () => {
     }
 
     try {
-        const { authorized } = await onCheckRole(db, session.user.id, ["student"]);
+        const { authorized } = await onCheckRole(db, session.user.id, ["admin"], session);
 
         if (!authorized) {
             return {
@@ -40,24 +38,43 @@ export const onShowReports = async () => {
             };
         }
 
-        const query = await db.select().from(classroomRequestsTable).innerJoin(resourceRequestsTable, eq(classroomRequestsTable.id, resourceRequestsTable.id));
 
-        if (!query) {
-            return {
-                status: 404,
-                message: "Not Found",
-                error: true
-            };
-        }
 
+        const resourceQuery = await db.select({
+            id: userTable.id,
+            name: userTable.name,
+            email: userTable.email,
+            requestStartDate: resourceRequestsTable.requestStartDate,
+            requestEndDate: resourceRequestsTable.requestEndDate,
+            status: resourceRequestsTable.status
+          }).from(userTable).
+            innerJoin(resourceRequestsTable, eq(userTable.id, resourceRequestsTable.userId))
+
+
+        const classroomQuery = await db.select({
+                id: userTable.id,
+                name: userTable.name,
+                email: userTable.email,
+                requestStartDate: classroomRequestsTable.requestStartDate,
+                requestEndDate: classroomRequestsTable.requestEndDate,
+                status: classroomRequestsTable.status
+              }).from(userTable).
+              innerJoin(classroomRequestsTable, eq(userTable.id, classroomRequestsTable.userId))
+
+
+              
         return {
-            error: false,
             status: 200,
             message: "Success",
-            data: query,
-        }
+            data: {
+                resource: resourceQuery.map(item => ({requestType: "Resource", ...item})),
+                classroom: classroomQuery.map(item => ({requestType: "Classroom", ...item})),
+                all: [...resourceQuery.map(item => ({requestType: "Resource", ...item})), ...classroomQuery.map(item => ({requestType: "Classroom", ...item}))]
+            },
+            error: false
+        };
 
-    
+        
     } catch(e) {
         return {
             status: 500,

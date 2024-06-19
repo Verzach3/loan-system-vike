@@ -1,9 +1,9 @@
 import { nanoid } from "nanoid";
 import { getContext } from "telefunc";
-import { TelefuncContext } from "@/types";
+import type { TelefuncContext } from "@/types";
 
-import { onCheckRole } from "../middleware/onCheckRole.telefunc";
-import { ResourceInsert, resourceTable } from "@/database/schema";
+import { onCheckRole } from "../middleware/onCheckRole.server";
+import { type ResourceInsert, resourceTable } from "@/database/schema";
 
 export const onCreateResource = async (resource: ResourceInsert) => {
   const { db, session } = getContext<TelefuncContext>();
@@ -20,7 +20,8 @@ export const onCreateResource = async (resource: ResourceInsert) => {
     const { authorized, body, status } = await onCheckRole(
       db,
       session.user.id,
-      ["admin", "student"]
+      ["admin", "student"],
+      session
     );
 
     if (!authorized) {

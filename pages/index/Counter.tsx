@@ -6,7 +6,9 @@ import { onCreateClassroom } from "@/functions/Classroom/onCreateClassroom.telef
 import { onCreateResource } from "@/functions/Resources/onCreateResource.telefunc";
 import { onCreateClassroomRequest } from "@/functions/Requests/onCreateClassroomRequest.telefunc";
 import { onCreateResourceRequest } from "@/functions/Requests/onCreateResourceRequest.telefunc";
-import { onShowReportsById } from "@/functions/Reports/onShowReportsById.telefunc";
+
+// TODO: add the function show reports with id
+import { onShowReports } from "@/functions/Reports/onShowReports.telefunc";
 
 export function Counter() {
   return (
@@ -63,10 +65,10 @@ export function Counter() {
       <button
         onClick={() =>
           onCreateResource({
-            name: "proyector",
-            description: "proyector epson",
+            name: "Monitor LG",
+            description: "Monitor LG 24 pulgadas",
             status: "disponible",
-            quantity: "10",
+            quantity: "5",
             headquarterId: "G2a2sLQMeDlp9rrM3kOTm",
           })
         }
@@ -99,9 +101,9 @@ export function Counter() {
 						userId: "rwfxatujykvxqc63",
 						id: "",
 						requestStartDate: " 2021-10-10",
-						requestEndDate: " 2021-10-10",
+						requestEndDate: " 2021-18-03",
 						status: "pendiente",
-            resourceId: "GX7Qqa7eoDquZQffukezp"
+            resourceId: "395do15lXbCpAxmwOp7i_"
 					}
         )}
       >
@@ -111,13 +113,11 @@ export function Counter() {
 
       {/* status is optional */}
       {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-      <button onClick={() => onShowReportsById("rwfxatujykvxqc63", {status: 'pendiente'})}>
+      <button onClick={() => onShowReports()}>
         show reports 
       </button>
       
       
-      
-
     </>
   );
 }

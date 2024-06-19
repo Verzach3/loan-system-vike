@@ -1,6 +1,5 @@
 import { Button, Card, Center, Image, Text } from "@mantine/core";
 import classes from "./ResourceItem.module.css";
-import { navigate } from "vike/client/router";
 
 type headquarter = {
 	id: string;
@@ -27,12 +26,11 @@ function HeadquarterItem({ headquarter }: { headquarter: headquarter }) {
 			<Card.Section>
 				<Center>
 					<Button
+						component="a"
 						w={"100%"}
 						mx={"md"}
 						my={"md"}
-						onClick={() =>
-							navigate(`/dashboard/headquarters/${headquarter.id}`)
-						}
+						href={`/dashboard/headquarters/${headquarter.id}`}
 					>
 						Ver
 					</Button>

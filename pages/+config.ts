@@ -8,6 +8,7 @@ export default {
   Layout,
   Head,
   // <title>
-  title: "My Vike App",
+  title: "LoanSystem",
+  clientRouting: false,
   extends: vikeReact,
 } satisfies Config;

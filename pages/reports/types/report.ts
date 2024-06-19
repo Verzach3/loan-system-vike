@@ -1,8 +1,11 @@
-export type reportType = {
+export type ReportData = {
+    id: string,
     name: string,
     email: string,
     requestStartDate: string,
     requestEndDate: string,
     status: string,
-    requestType: string,
+    requestType: string; 
 }
+
+

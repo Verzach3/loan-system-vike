@@ -7,7 +7,8 @@ import MainLayout from "@/layouts/MainLayout.js";
 export default {
 	Layout: MainLayout,
 	Head,
+	clientRouting: false,
 	// <title>
-	title: "My Vike App",
+	title: "LoanSystem",
 	extends: vikeReact,
 } satisfies Config;

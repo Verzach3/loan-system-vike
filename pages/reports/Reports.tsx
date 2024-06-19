@@ -1,30 +1,46 @@
-import ReportTable from './ReportTable'
-import { onShowReportsById } from '../../functions/Reports/onShowReportsById.telefunc'
+import { useState, useEffect } from "react";
+import { Select } from "@mantine/core";
+import { onShowReports } from "../../functions/Reports/onShowReports.telefunc";
+import ReportTable from "./ReportTable";
 
-import { useState, useEffect } from 'react'
+import type { ReportData } from "./types/report";
+import classes from "./table.module.css"
 
-export default function Reports({ userId } : {userId: string} ) {
-
-  const [reportData, setReportData] = useState([])
-  const data = []
+export default function Reports({ userId }: { userId: string }) {
+	const [reportData, setReportData] = useState<ReportData[]>([]);
 
 
-  useEffect(() => {
-    onShowReportsById(userId).then((result) => {
-      setReportData(result)
-      console.log(result)
-    })
-  }, [])
-  
+    useEffect(() => {
+    
+        const handleShowReports = async () => {
+        
+        const reports = await onShowReports();
 
-  return (
-    <>
-        <h1>Reports Page</h1>
-        {
-          console.log(reportData)
+
+        if (reports.error) {
+            // TODO: handle error
+            return; 
         }
-        <ReportTable reportData={ [] } />
-    </>
-  )
+
+       
+        setReportData(reports.body?.all ?? []);
+
+	    };
+
+    handleShowReports();
+    }, []);
+
+	return (
+		<>
+            
+			<h1>Reports Page</h1>
+            <Select
+                label="Filtrar por"
+                data={['Salones', 'Recursos', 'Profesores', 'Estudiantes']}
+                size="sm"
+                className="SelectFilter"
+            />
+			<ReportTable reportData={ reportData } />
+		</>
+	);
 }
- 

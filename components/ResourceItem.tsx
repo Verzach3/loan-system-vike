@@ -10,7 +10,6 @@ import {
 } from "@mantine/core";
 import classes from "./ResourceItem.module.css";
 import { IconBuilding } from "@tabler/icons-react";
-import { navigate } from "vike/client/router";
 
 type Classroom = {
 	id: string;
@@ -28,7 +27,6 @@ type Classroom = {
 };
 
 function ResourceItem({ classroom, type }: { classroom: Classroom; type: "resource" | "classroom" }) {
-	console.log(classroom.headquarter);
 	if (!classroom) return null;
 	return (
 		<Card withBorder padding="lg" radius="md" className={classes.card}>
@@ -80,12 +78,13 @@ function ResourceItem({ classroom, type }: { classroom: Classroom; type: "resour
 			<Card.Section>
 				<Center>
 					<Button
+						component="a"
+						href={`/dashboard/${type === "resource" ? "resources" : "classrooms"}/${classroom.id}`}
 						w={"100%"}
 						mx={"sm"}
 						my={"sm"}
 						variant="filled"
 						color="blue"
-						onClick={() => navigate(`/dashboard/${type === "resource" ? "resources" : "classrooms"}/${classroom.id}`)}
 					>
 						Ver
 					</Button>

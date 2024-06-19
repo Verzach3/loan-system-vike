@@ -10,7 +10,6 @@ import {
 import { IconChevronRight } from "@tabler/icons-react";
 import { useState } from "react";
 import classes from "./LinksGroup.module.css";
-import { navigate } from 'vike/client/router'
 
 interface LinksGroupProps {
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -26,7 +25,7 @@ export function LinksGroup({
 	label,
 	initiallyOpened,
 	links,
-  link,
+	link,
 }: LinksGroupProps) {
 	const hasLinks = Array.isArray(links);
 	const [opened, setOpened] = useState(initiallyOpened || false);
@@ -45,12 +44,12 @@ export function LinksGroup({
 	return (
 		<>
 			<UnstyledButton
+				component="a"
+				href={link ?? "/"}
 				onClick={() => {
 					if (hasLinks) {
 						setOpened((o) => !o);
-					} else {
-            navigate(link ?? "/");
-          }
+					}
 				}}
 				className={classes.control}
 			>

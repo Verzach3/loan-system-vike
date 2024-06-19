@@ -8,10 +8,45 @@ export async function data({ db, routeParams }: PageContext) {
 		throw new Error("Invalid route params");
 	}
 
-  return {
-    status: 404,
-    body: "No se encontró la sala",
-    error: true
-  }
-  
+	const classroom = await db.query.classroomTable.findFirst({
+		where: (classroomTable, { eq }) => eq(classroomTable.id, routeParams.id),
+		with: {
+			headquarter: true,
+		},
+	});
+
+	if (!classroom) {
+		return {
+			status: 404,
+			error: {
+				message: "No se encontró la sede",
+			},
+		};
+	}
+
+	const classroomReservations = await db.query.classroomRequestsTable.findMany({
+		where: (classroomRequestsTable, { eq }) =>
+			eq(classroomRequestsTable.classroomId, routeParams.id),
+		with: {
+			user: true,
+		}
+	});
+
+	if (!classroomReservations) {
+		return {
+			status: 404,
+			error: {
+				message: "No se encontraron reservaciones",
+			},
+		};
+	}
+
+	return {
+		status: 200,
+		body: {
+			classroom,
+			classroomReservations,
+		},
+		error: false,
+	};
 }

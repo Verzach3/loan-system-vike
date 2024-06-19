@@ -18,7 +18,6 @@ import { onLogin } from "@/functions/onLogin.telefunc";
 import { notifications } from "@mantine/notifications";
 import { match } from "ts-pattern";
 import { useState } from "react";
-import { navigate } from "vike/client/router";
 
 function AuthenticationForm(props: PaperProps) {
 	const [loading, setLoading] = useState(false);
@@ -74,7 +73,7 @@ function AuthenticationForm(props: PaperProps) {
 												color: "green",
 												autoClose: 2000,
 											});
-											navigate("/dashboard");
+											window.location.href = "/dashboard";
 										})
 										.with({ status: 400 }, (val) =>
 											notifications.show({
@@ -105,7 +104,7 @@ function AuthenticationForm(props: PaperProps) {
 											color: "green",
 											autoClose: 2000,
 										});
-										navigate("/dashboard");
+										window.location.href = "/dashboard";
 									})
 									.with({ status: 400 }, (val) =>
 										notifications.show({

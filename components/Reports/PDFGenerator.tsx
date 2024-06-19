@@ -1,6 +1,6 @@
 
 
-import { onCheckRole } from '@/functions/middleware/onCheckRole.telefunc';
+import { onCheckRole } from '@/functions/middleware/onCheckRole.server';
 import { onCheckUser } from '@/functions/middleware/onCheckUser.telefunc';
 import { TelefuncContext } from '@/types';
 import jsPDF from 'jspdf';

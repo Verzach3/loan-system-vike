@@ -1,0 +1,56 @@
+.table-container {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+  
+  /* Estilos para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .table-container table {
+      width: 100%;
+      table-layout: fixed;
+    }
+  
+    .table-container th,
+    .table-container td {
+      word-wrap: break-word;
+      white-space: normal;
+    }
+  }
+
+
+.SelectFilter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  
+  
+  
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.ReportTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+

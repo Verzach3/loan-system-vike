@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import { getContext } from "telefunc";
 import type { TelefuncContext } from "@/types";
 
-import { onCheckRole } from "../middleware/onCheckRole.telefunc";
+import { onCheckRole } from "../middleware/onCheckRole.server";
 
 import  { type resourceRequestInsert, resourceRequestInsertSchema, resourceTable, resourceRequestsTable } from "@/database/schema";
 

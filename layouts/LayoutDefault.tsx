@@ -1,5 +1,6 @@
 import "@mantine/core/styles.css";
 import '@mantine/notifications/styles.css';
+import "@mantine/dates/styles.css";
 import "./style.css";
 import { MantineProvider, createTheme } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

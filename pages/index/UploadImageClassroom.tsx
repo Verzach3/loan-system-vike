@@ -5,7 +5,6 @@ import { Dropzone } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { IconFileUpload } from "@tabler/icons-react";
 import { useRef, useState } from "react";
-import { reload } from "vike/client/router";
 
 export default function UploadImageClassroom({ classroomId }: { classroomId: string }) {
 	const openRef = useRef<() => void>(null);
@@ -72,7 +71,7 @@ export default function UploadImageClassroom({ classroomId }: { classroomId: str
 								message: "El archivo ha sido cargado correctamente",
 							});
 						};
-						reload();
+						window.location.reload();
 					}
 				}}
 				activateOnClick={false}

@@ -3,7 +3,7 @@ import type { TelefuncContext } from "@/types";
 
 import { nanoid } from "nanoid";
 import { getContext } from "telefunc";
-import { onCheckRole } from "../middleware/onCheckRole.telefunc";
+import { onCheckRole } from "../middleware/onCheckRole.server";
 
 export const onCreateClassroom = async (classroom: ClassroomInsert) => {
   const { db, session } = getContext<TelefuncContext>();
@@ -19,7 +19,7 @@ export const onCreateClassroom = async (classroom: ClassroomInsert) => {
     
     const { authorized, body, status } = await onCheckRole(db,
       session.user.id,
-      ["admin", "student"]
+      ["admin", "student"], session
     );
 
     if (!authorized) {

@@ -1,7 +1,10 @@
+import { Container } from "@mantine/core";
 
 function Dashboard() {
 	return (
-		<div>+Page</div>
+		<Container>
+			
+		</Container>
 	)
 }
 

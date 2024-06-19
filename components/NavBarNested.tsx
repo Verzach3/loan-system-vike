@@ -1,56 +1,36 @@
+import { Group, Code, ScrollArea, Image, Divider } from "@mantine/core";
 import {
-	Group,
-	Code,
-	ScrollArea,
-	Text,
-} from "@mantine/core";
-import {
-	IconNotes,
 	IconCalendarStats,
 	IconPresentationAnalytics,
-	IconFileAnalytics,
-	IconAdjustments,
-	IconLock,
 	IconBuilding,
+	IconFolderShare,
+	IconBuildingWarehouse,
+	IconHistory,
 } from "@tabler/icons-react";
 import classes from "./NavbarNested.module.css";
 import { LinksGroup } from "./LinksGroup";
 import { UserButton } from "./UserButton";
-
+import lslogo from "@/assets/ls-logo.png"
 const mockdata = [
+	{
+		label: "Calendario",
+		icon: IconCalendarStats,
+		link: "/dashboard/",
+	},
 	{ label: "Sedes", icon: IconBuilding, link: "/dashboard/headquarters" },
 	{ label: "Salones", icon: IconBuilding, link: "/dashboard/classrooms" },
 	{
-		label: "Market news",
-		icon: IconNotes,
-		links: [
-			{ label: "Overview", link: "/" },
-			{ label: "Forecasts", link: "/" },
-			{ label: "Outlook", link: "/" },
-			{ label: "Real time", link: "/" },
-		],
+		label: "Recursos",
+		icon: IconBuildingWarehouse,
+		link: "/dashboard/resources",
 	},
 	{
-		label: "Releases",
-		icon: IconCalendarStats,
-		links: [
-			{ label: "Upcoming releases", link: "/" },
-			{ label: "Previous releases", link: "/" },
-			{ label: "Releases schedule", link: "/" },
-		],
+		label: "Reportes",
+		icon: IconPresentationAnalytics,
+		link: "/dashboard/reports",
 	},
-	{ label: "Analytics", icon: IconPresentationAnalytics },
-	{ label: "Contracts", icon: IconFileAnalytics },
-	{ label: "Settings", icon: IconAdjustments },
-	{
-		label: "Security",
-		icon: IconLock,
-		links: [
-			{ label: "Enable 2FA", link: "/" },
-			{ label: "Change password", link: "/" },
-			{ label: "Recovery codes", link: "/" },
-		],
-	},
+	{ label: "Solicitudes", icon: IconFolderShare, link: "/dashboard/request" },
+	{ label: "Historial", icon: IconHistory, link: "/dashboard/history" },
 ];
 
 export function NavbarNested() {
@@ -60,15 +40,14 @@ export function NavbarNested() {
 
 	return (
 		<div className={classes.navbar}>
-			<div className={classes.header}>
 				<Group justify="space-between">
-					<Text>Logo</Text>
-					<Code fw={700}>v3.1.2</Code>
+					<Image src={lslogo} width={"80"} height={"80"} radius="xl" />
+					<Code fw={700}>v1.0.0</Code>
 				</Group>
-			</div>
-				<ScrollArea className={classes.links}>
-					<div className={classes.linksInner}>{links}</div>
-				</ScrollArea>
+				<Divider/>
+			<ScrollArea className={classes.links}>
+				<div className={classes.linksInner}>{links}</div>
+			</ScrollArea>
 			<div className={classes.footer}>
 				<UserButton />
 			</div>
