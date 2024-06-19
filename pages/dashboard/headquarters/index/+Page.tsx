@@ -1,6 +1,7 @@
 import HeadquarterItem from "@/components/HeadquarterItem";
 import HQCreateForm from "@/components/Headquarters/CreateForm";
 import { onGetHeadquarters } from "@/functions/Headquarters/onGetHeadquarters.telefunc";
+import { onGetUserData } from "@/functions/onGetUserData.telefunc";
 import {
 	Affix,
 	Button,
@@ -12,8 +13,7 @@ import {
 	TextInput,
 	Title,
 } from "@mantine/core";
-import { useDebouncedState } from "@mantine/hooks";
-import { IconPlus, IconSearch } from "@tabler/icons-react";
+import { IconPlus } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -23,6 +23,11 @@ function Headquarters() {
 	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["headquarters"],
 		queryFn: onGetHeadquarters,
+	});
+
+	const { data: userDate } = useQuery({
+		queryKey: ["user"],
+		queryFn: onGetUserData,
 	});
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -48,7 +53,9 @@ function Headquarters() {
 				<Grid mt={"lg"}>
 					{data
 						?.filter((headquarter) =>
-							headquarter.name.toLowerCase().includes(searchValue.toLowerCase()),
+							headquarter.name
+								.toLowerCase()
+								.includes(searchValue.toLowerCase()),
 						)
 						.map((headquarter) => (
 							<Grid.Col span={{ base: 3 }} key={headquarter.id}>
@@ -58,9 +65,11 @@ function Headquarters() {
 				</Grid>
 			</Container>
 			<Affix position={{ bottom: 20, right: 20 }}>
-				<Button onClick={() => setIsOpened(true)} leftSection={<IconPlus />}>
-					Nueva Sede
-				</Button>
+				{userDate?.role === "admin" && (
+					<Button onClick={() => setIsOpened(true)} leftSection={<IconPlus />}>
+						Nueva Sede
+					</Button>
+				)}
 			</Affix>
 		</>
 	);

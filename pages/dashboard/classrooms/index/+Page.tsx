@@ -15,12 +15,18 @@ import {
 import { IconPlus } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { onGetUserData } from "@/functions/onGetUserData.telefunc";
 
 function Classrooms() {
 	const [isOpened, setIsOpened] = useState(false);
 	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["classrooms"],
 		queryFn: onGetClassrooms,
+	});
+
+	const { data: userDate } = useQuery({
+		queryKey: ["user"],
+		queryFn: onGetUserData,
 	});
 
 	const [selectedHQ, setSelectedHQ] = useState<string | null>(null);
@@ -43,7 +49,7 @@ function Classrooms() {
 			<Modal opened={isOpened} onClose={() => setIsOpened(false)}>
 				<CRCreateForm formOpened={setIsOpened} />
 			</Modal>
-			<Container mt={"md"} pb={"4rem"} >
+			<Container mt={"md"} pb={"4rem"}>
 				<Title>Salones</Title>
 				{isLoading && <LoadingOverlay visible={isLoading} />}
 				<Select
@@ -74,9 +80,14 @@ function Classrooms() {
 							))}
 				</Grid>
 				<Affix position={{ bottom: 20, right: 20 }}>
-					<Button leftSection={<IconPlus />} onClick={() => setIsOpened(true)}>
-						Nuevo salon
-					</Button>
+					{userDate?.role === "admin" && (
+						<Button
+							leftSection={<IconPlus />}
+							onClick={() => setIsOpened(true)}
+						>
+							Nuevo salon
+						</Button>
+					)}
 				</Affix>
 			</Container>
 		</>

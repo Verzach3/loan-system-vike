@@ -15,6 +15,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { onGetResources } from "@/functions/Resources/onGetResources.telefunc";
+import { onGetUserData } from "@/functions/onGetUserData.telefunc";
 
 function Resources() {
 	const [isOpened, setIsOpened] = useState(false);
@@ -33,6 +34,11 @@ function Resources() {
 		queryFn: onGetHeadquarters,
 	});
 
+	const { data: userDate } = useQuery({
+		queryKey: ["user"],
+		queryFn: onGetUserData,
+	});
+
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		refetch();
@@ -43,7 +49,7 @@ function Resources() {
 			<Modal opened={isOpened} onClose={() => setIsOpened(false)}>
 				<RSCreateForm formOpened={setIsOpened} />
 			</Modal>
-			<Container mt={"md"} pb={"4rem"} >
+			<Container mt={"md"} pb={"4rem"}>
 				<Title>Recursos</Title>
 				{isLoading && <LoadingOverlay visible={isLoading} />}
 				<Select
@@ -74,9 +80,14 @@ function Resources() {
 							))}
 				</Grid>
 				<Affix position={{ bottom: 20, right: 20 }}>
-					<Button leftSection={<IconPlus />} onClick={() => setIsOpened(true)}>
-						Nuevo recurso
-					</Button>
+					{userDate?.role === "admin" && (
+						<Button
+							leftSection={<IconPlus />}
+							onClick={() => setIsOpened(true)}
+						>
+							Nuevo recurso
+						</Button>
+					)}
 				</Affix>
 			</Container>
 		</>
