@@ -75,7 +75,7 @@ function Classrooms() {
 				</Grid>
 				<Affix position={{ bottom: 20, right: 20 }}>
 					<Button leftSection={<IconPlus />} onClick={() => setIsOpened(true)}>
-						Nueva Sede
+						Nuevo salon
 					</Button>
 				</Affix>
 			</Container>
